@@ -4,7 +4,7 @@ class CreateIdeas < ActiveRecord::Migration
       t.integer :admin_id
       t.string :title
       t.text :description
-      t.integer :upvotes
+      t.integer :upvotes, default: 0
 
       t.timestamps
     end

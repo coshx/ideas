@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20140102223438) do
     t.integer  "admin_id"
     t.string   "title"
     t.text     "description"
-    t.integer  "upvotes"
+    t.integer  "upvotes",     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
   end

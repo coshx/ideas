@@ -1,10 +1,14 @@
 Ideas::Application.routes.draw do
-  get "main/index"
+  root "main#index"
 
   devise_for :admins
 
   namespace :api do
     resource :votes
+    resource :ideas
+    resource :comments
+    delete '/comments/:id' => "comments#destroy"
+    delete '/ideas/:id' => "ideas#destroy"
   end
 
 end

@@ -8,10 +8,19 @@ $(document).on 'page:load', ->
 $ ->
   $(document).trigger "page:load"
 
+window.getAdmin = (admin) ->
+  Ideas.currentAdmin = admin
+
 App.factory "Comment", ["railsResourceFactory", (railsResourceFactory) ->
   railsResourceFactory
     url: "/api/comments"
     name: "comment"
+]
+
+App.factory "Idea", ["railsResourceFactory", (railsResourceFactory) ->
+  railsResourceFactory
+    url: "/api/ideas"
+    name: "idea"
 ]
 
 App.filter "timeFormat", ->
@@ -20,7 +29,7 @@ App.filter "timeFormat", ->
       moment(time, "YYYY-MM-DDTHH:mm:ss Z").calendar()
 
 
-App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", ($scope, $rootScope, $http) ->
+App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   
   $scope.vote = (idea) ->
     if Ideas.currentAdmin
@@ -31,14 +40,23 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", ($scope, $root
         data: data
       .success( (result) ->
         if result.destroyed
-          v.votes_count = v.votes_count - 1
-          v.voted = false
+          idea.upvotes = idea.upvotes - 1
+          idea.voted = false
         else
-          v.votes_count = v.votes_count + 1
-          v.voted = true
+          idea.upvotes = idea.upvotes + 1
+          idea.voted = true
       )
     else
-      Turbolinks.visit("/login-first")
+      #Turbolinks.visit("/login-first")
+
+  $scope.createIdea = (idea) ->
+    new Idea(idea).create().then ->
+      $scope.commentText = ""
+    idea.admin = Ideas.currentAdmin
+    idea.admin_id = Ideas.currentAdmin.id
+    now = new Date().getTime()
+    idea.created_at = moment(now).format("YYYY-MM-DDTHH:mm:ss Z")
+    $scope.ideas.unshift(idea)
 
   $scope.comment = (idea, commentText) ->
     comment =

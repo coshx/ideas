@@ -4,4 +4,13 @@
       {{idea.title}}
     %p
       {{idea.description}}
+    %p
+      by {{idea.admin.name}}
+    %p
+      votes {{idea.upvotes}} {{idea.voted && 'you already voted' || 'you can upvote'}}
     %a.btn.btn-success{href: "#", ng: {click: 'vote(idea)'}} Vote
+
+  .new-idea
+    %input{type: 'text', ng: {model: 'newIdea.title'}}
+    %textarea{ ng: {model: 'newIdea.description'}}
+    .btn.btn-primary{ng: {click: 'createIdea(newIdea)'}} Add idea
