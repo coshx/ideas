@@ -1,0 +1,7 @@
+.ideas-list{ng: {controller: 'IdeasListCtrl', init: "ideas=#{jsonize(@ideas)}"}}
+  .idea{ng: {repeat: 'idea in ideas'}}
+    %h3
+      {{idea.title}}
+    %p
+      {{idea.description}}
+    %a.btn.btn-success{href: "#", ng: {click: 'vote(idea)'}} Vote

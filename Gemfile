@@ -16,6 +16,8 @@ end
 gem 'httparty'
 gem 'haml-rails'
 gem 'angularjs-rails'
+gem 'momentjs-rails'
+gem "angularjs-rails-resource"
 gem 'underscore-rails'
 
 gem 'bootstrap-sass', '~> 3.0.2.0'
