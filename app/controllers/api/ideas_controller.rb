@@ -46,7 +46,7 @@ class Api::IdeasController < ApplicationController
     @idea = Idea.new(idea_params)
     @idea.admin_id = current_admin.id
     @idea.save!
-    render json: @idea
+    render json: @idea.to_json(include: [{admin: {only: [:name, :id, :image_url]}}, {comments: {include: {admin: {only: [:name, :image_url]}}}}], methods: [:voted])
   end
 
   # PUT /ideas/1

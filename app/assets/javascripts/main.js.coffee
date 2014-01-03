@@ -50,13 +50,8 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
       #Turbolinks.visit("/login-first")
 
   $scope.createIdea = (idea) ->
-    new Idea(idea).create().then ->
-      $scope.commentText = ""
-    idea.admin = Ideas.currentAdmin
-    idea.admin_id = Ideas.currentAdmin.id
-    now = new Date().getTime()
-    idea.created_at = moment(now).format("YYYY-MM-DDTHH:mm:ss Z")
-    $scope.ideas.unshift(idea)
+    new Idea(idea).create().then (idea) ->
+      $scope.ideas.unshift(idea)
 
   $scope.comment = (idea, commentText) ->
     comment =

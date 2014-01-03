@@ -12,10 +12,10 @@
       {{idea.description}}
     %p
       by {{idea.admin.name}}
-      %img{src: "{{idea.admin.image_url}}"}
+      %img{src: "{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}"}
     %p
       votes {{idea.upvotes}} {{idea.voted && 'you already voted' || 'you can upvote'}}
-    %a.btn.btn-success{href: "#", ng: {click: 'vote(idea)'}} Vote
+    .btn.btn-success{ng: {click: 'vote(idea)'}} Vote
 
   .new-idea
     %input{type: 'text', ng: {model: 'newIdea.title'}}
