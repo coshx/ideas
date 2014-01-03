@@ -6,4 +6,5 @@ class Admin < ActiveRecord::Base
   has_many :ideas
   has_many :comments
   has_many :votes
+  has_many :authentications
 end

@@ -1,7 +1,7 @@
 Ideas::Application.routes.draw do
   root "main#index"
-
   devise_for :admins
+  get '/auth/:provider/callback' => 'authentications#create'
 
   namespace :api do
     resource :votes
