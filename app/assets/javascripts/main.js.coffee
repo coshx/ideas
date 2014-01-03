@@ -52,6 +52,8 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
   $scope.createIdea = (idea) ->
     new Idea(idea).create().then (idea) ->
       $scope.ideas.unshift(idea)
+      Ideas.globalScope.showNewIdea = false
+      $scope.newIdea = {}
 
   $scope.comment = (idea, commentText) ->
     comment =
@@ -69,4 +71,14 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     new Comment(comment).delete().then ->
      idea.comments.splice(idea.comments.indexOf(comment), 1)
 
+]
+
+App.controller "GlobalCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
+  Ideas.globalScope = $scope
+  $scope.toggleNewIdea = ->
+    $scope.showNewIdea=!!!$scope.showNewIdea
+    if $scope.showNewIdea
+      setTimeout ->
+        $(".new-idea input").focus()
+      , 100
 ]

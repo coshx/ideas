@@ -3,6 +3,7 @@ Ideas::Application.routes.draw do
   devise_for :admins
   get '/auth/:provider/callback' => 'authentications#create'
   get '/wrong_domain' => "main#wrong_domain"
+  get '/ideas/:id' => "ideas#show"
 
   namespace :api do
     resource :votes

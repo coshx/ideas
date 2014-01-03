@@ -1,0 +1,7 @@
+.ideas-list{ng: {controller: 'IdeasListCtrl', init: "idea=#{jsonize(@idea)}"}}
+  .idea
+    =render "ideas/idea"
+  %p
+    Description: {{idea.description}}
+  %p
+    Comments: 0

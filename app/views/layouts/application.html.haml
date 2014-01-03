@@ -5,7 +5,7 @@
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
-  %body
+  %body{ng: {controller: 'GlobalCtrl'}}
     .navbar.navbar-default.navbar-static-top{:role => "navigation"}
       .container
         .navbar-header
@@ -14,15 +14,11 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.navbar-brand{:href => "#"} Project name
+          %a.navbar-brand{:href => "/"} Coshx Ideas
         .navbar-collapse.collapse
           %ul.nav.navbar-nav
-            %li.active
-              %a{:href => "#"} Home
             %li
-              %a{:href => "#about"} About
-            %li
-              %a{:href => "#contact"} Contact
+              %a.link{ng: {click: 'toggleNewIdea()'}} + New Idea
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
