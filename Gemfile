@@ -13,6 +13,7 @@ group :production do
   gem 'pg'
 end
 
+gem 'bourbon'
 gem 'httparty'
 gem 'haml-rails'
 gem 'angularjs-rails'

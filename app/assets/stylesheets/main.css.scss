@@ -1,3 +1,38 @@
-// Place all the styles related to the main controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bourbon";
+
+
+$light: #EEEEEE;
+$medium-light: #AAAAAA;
+
+.idea {
+  padding: 15px 0px;
+  border-bottom: 1px solid $light;
+  font-size: 18px;
+  .upvotes {
+    color: $medium-light;
+    font-size: 18px;
+    padding-right: 20px;
+  }
+  .admin {
+    color: $medium-light;
+    img {
+      width: 30px;
+    }
+  }
+  .vote {
+    @include user-select(none);
+    cursor: pointer;
+    font-size: 16px;
+    &:hover {
+      opacity: 0.8;
+    }
+    &.voted-true {
+      color: $light;
+    }
+  }
+}
+.new-idea {
+  padding: 15px;
+  background: $light;
+}

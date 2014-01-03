@@ -1,23 +1,20 @@
 -# %a{href: 'auth/google_oauth2'} Login thru google
-%p
-  Current user: #{current_admin.name}
-  = link_to "Logout yo", destroy_admin_session_path, :method => :delete
-
 
 .ideas-list{ng: {controller: 'IdeasListCtrl', init: "ideas=#{jsonize(@ideas)}"}}
   .idea{ng: {repeat: 'idea in ideas'}}
-    %h3
+    %span.upvotes
+      {{idea.upvotes}}
+      %span.vote{ng: {click: 'vote(idea)'}, class:'voted-{{idea.voted}}'}
+        %span.glyphicon.glyphicon-arrow-up{ng:{show: '!idea.voted'}}
+        %span.glyphicon.glyphicon-arrow-down{ng:{show: 'idea.voted'}}
+    %span.title
       {{idea.title}}
-    %p
-      {{idea.description}}
-    %p
-      by {{idea.admin.name}}
+    %span.admin
+      by
+      {{idea.admin.name}}
       %img{src: "{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}"}
-    %p
-      votes {{idea.upvotes}} {{idea.voted && 'you already voted' || 'you can upvote'}}
-    .btn.btn-success{ng: {click: 'vote(idea)'}} Vote
 
   .new-idea
-    %input{type: 'text', ng: {model: 'newIdea.title'}}
-    %textarea{ ng: {model: 'newIdea.description'}}
+    %input{type: 'text', ng: {model: 'newIdea.title'}, placeholder: "Idea title"}
+    %textarea{ ng: {model: 'newIdea.description'}, placeholder: "Idea description"}
     .btn.btn-primary{ng: {click: 'createIdea(newIdea)'}} Add idea
