@@ -1,0 +1,23 @@
+.new-comment.comment{ng: {show: 'currentAdmin'}}
+  .avatar{style: "background: url('{{currentAdmin.image_url}}');"}
+  %textarea{ng: {model: 'commentText'}, placeholder: 'comment here'}
+  %span.button.btn.btn-primary{ng: {click: "comment(idea, commentText)"}}
+    Comment
+.new-comment.comment{ng: {hide: 'currentAdmin'}}
+  .body
+    %p.message
+      %a{href: "/auth/facebook", ng: {click: 'loginAndComeBack()'}} Login
+      to comment, gorgeous
+.comment{ng: {repeat: "comment in idea.comments | orderBy:'created_at':true"}}
+  .body
+    .avatar{style: "background: url('{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}');"}
+    %span.name {{comment.admin.name}}
+    %span.text {{comment.text}}
+    %span.time {{comment.created_at|timeFormat}}
+    %span.remove.glyphicon.glyphicon-remove{ng: {show: 'comment.admin_id == currentAdmin.id', click: "removeComment(idea, comment)"}}
+
+:coffeescript
+  $ ->
+    setTimeout ->
+      $(".new-comment textarea").focus()
+    , 100

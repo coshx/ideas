@@ -28,7 +28,6 @@ App.filter "timeFormat", ->
     if time?
       moment(time, "YYYY-MM-DDTHH:mm:ss Z").calendar()
 
-
 App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   
   $scope.vote = (idea) ->
@@ -59,12 +58,14 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     comment =
       text: commentText
       idea_id: idea.id
-    new Comment(comment).create().then ->
+    new Comment(comment).create().then (c) ->
+      comment.id = c.id
+      comment.created_at = c.createdAt
       $scope.commentText = ""
     comment.admin = Ideas.currentAdmin
     comment.admin_id = Ideas.currentAdmin.id
     now = new Date().getTime()
-    comment.created_at = moment(now).format("YYYY-MM-DDTHH:mm:ss Z")
+    #comment.created_at = moment(now).format("YYYY-MM-DDTHH:mm:ss Z")
     idea.comments.unshift(comment)
 
   $scope.removeComment = (idea, comment) ->
@@ -75,6 +76,8 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
 
 App.controller "GlobalCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   Ideas.globalScope = $scope
+  $scope.currentAdmin = Ideas.currentAdmin
+
   $scope.toggleNewIdea = ->
     $scope.showNewIdea=!!!$scope.showNewIdea
     if $scope.showNewIdea

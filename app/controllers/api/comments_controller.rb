@@ -82,6 +82,6 @@ class Api::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:text, :video_id)
+    params.require(:comment).permit(:text, :idea_id)
   end
 end

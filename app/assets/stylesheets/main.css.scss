@@ -38,18 +38,6 @@ $white: #FFFFFF;
       color: $light;
     }
   }
-  .avatar {
-    display: inline-block;
-    border-radius: 20px;
-    content: '';
-    width: 30px;
-    height: 30px;
-    border: 1px solid $light;
-    vertical-align: middle;
-    background-size: cover !important;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
   .goto {
     padding: 0;
     margin: 0;
@@ -58,6 +46,18 @@ $white: #FFFFFF;
     cursor: pointer;
   }
 }
+.avatar {
+  display: inline-block;
+  border-radius: 20px;
+  content: '';
+  width: 30px;
+  height: 30px;
+  border: 1px solid $light;
+  vertical-align: middle;
+  background-size: cover !important;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
 .new-idea {
   padding: 15px;
   background: $light;
@@ -65,4 +65,26 @@ $white: #FFFFFF;
 .link {
   cursor: pointer;
   @include user-select(none);
+}
+.comment {
+  .image {
+    display: inline-block;
+  }
+  .name {
+    font-weight: bold;
+  }
+  .time {
+    color: $medium-light;
+  }
+  .remove {
+    cursor: pointer;
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+.new-comment {
+  textarea {
+    display: inline-block;
+  }
 }
