@@ -7,6 +7,15 @@ $medium-light: #AAAAAA;
 $very-light: #FCFCFC;
 $white: #FFFFFF;
 
+.logo {
+  background: image-url('logo.png');
+  width: 223px;
+  height: 60px;
+  content: '';
+}
+.collapse {
+  padding-top: 20px;
+}
 .ideas-list {
   border-top: 1px solid $light;
 }
