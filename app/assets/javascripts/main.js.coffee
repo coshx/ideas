@@ -38,13 +38,15 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     else
       if $scope.ideas      
         idea = _.findWhere($scope.ideas, {id: object.id})      
+        console.log "IDEA:", idea
         if idea?
           index = $scope.ideas.indexOf idea
           $scope.$apply ->
             $scope.ideas[index] = object.data
         if !idea?
+          console.log "NEW IDEA!"
           $scope.$apply ->
-            $scope.ideas.push(idea)
+            $scope.ideas.push(object.data)
       else if $scope.idea      
         idea = $scope.idea if $scope.idea.id == object.id
       $scope.$apply ->
@@ -69,9 +71,16 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
       #Turbolinks.visit("/login-first")
 
   $scope.createIdea = (idea) ->
+    Ideas.unsubscribeIdea = idea.id
+    idea.upvotes = 0
+    idea.voted = false
+    idea.admin = Ideas.currentAdmin
+    $scope.ideas.unshift(idea)
+    Ideas.globalScope.showNewIdea = false
+    $scope.newIdea = {}
     new Idea(idea).create().then (idea) ->
-      $scope.ideas.unshift(idea)
-      Ideas.globalScope.showNewIdea = false
+      #$scope.ideas.unshift(idea)
+      #Ideas.globalScope.showNewIdea = false
       $scope.newIdea = {}
 
   $scope.comment = (idea, commentText) ->
