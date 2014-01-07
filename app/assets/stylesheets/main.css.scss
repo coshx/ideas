@@ -6,6 +6,7 @@ $light: #EEEEEE;
 $medium-light: #AAAAAA;
 $very-light: #FCFCFC;
 $white: #FFFFFF;
+$black-text: #333333;
 
 p {
   font-size: 18px;
@@ -32,6 +33,15 @@ p {
   padding: 15px 0px 15px 5px;
   border-bottom: 1px solid $light;
   font-size: 18px;
+  .title {
+    a {
+      color: $black-text;
+      &:hover {
+        text-decoration: none;
+        color:  $black-text;
+      }      
+    }
+  }
   .upvotes {
     color: $medium-light;
     font-size: 18px;

@@ -4,7 +4,7 @@
     %span.glyphicon.glyphicon-arrow-up{ng:{show: '!idea.voted'}}
     %span.glyphicon.glyphicon-arrow-down{ng:{show: 'idea.voted'}}
 %span.title
-  {{idea.title}}
+  %a{href: "/ideas/{{idea.id}}"} {{idea.title}}
 %span.admin
   by
   {{idea.admin.name}}
