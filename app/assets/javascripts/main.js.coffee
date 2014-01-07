@@ -33,36 +33,38 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
   channel = pusher.subscribe('ideas_channel')
   
   channel.bind 'idea_changed', (object) ->
-    if $scope.ideas      
-      idea = _.findWhere($scope.ideas, {id: object.id})      
-      if idea?
-        index = $scope.ideas.indexOf idea
-        $scope.$apply ->
-          $scope.ideas[index] = object.data
-      if !idea?
-        $scope.$apply ->
-          $scope.ideas.push(idea)
-    else if $scope.idea      
-      idea = $scope.idea if $scope.idea.id == object.id
-    $scope.$apply ->
-      $scope.idea = object.data
-      idea = object.data 
+    if Ideas.unsubscribeIdea == object.id
+      Ideas.unsubscribeIdea = {}
+    else
+      if $scope.ideas      
+        idea = _.findWhere($scope.ideas, {id: object.id})      
+        if idea?
+          index = $scope.ideas.indexOf idea
+          $scope.$apply ->
+            $scope.ideas[index] = object.data
+        if !idea?
+          $scope.$apply ->
+            $scope.ideas.push(idea)
+      else if $scope.idea      
+        idea = $scope.idea if $scope.idea.id == object.id
+      $scope.$apply ->
+        $scope.idea = object.data
+        idea = object.data 
       
   $scope.vote = (idea) ->
+    Ideas.unsubscribeIdea = idea.id
+    if idea.voted == true
+      idea.voted = false
+      idea.upvotes = idea.upvotes - 1
+    else
+      idea.voted = true
+      idea.upvotes = idea.upvotes + 1
     if Ideas.currentAdmin
       data = {id: idea.id}
       $http
         method: 'POST'
         url: "/api/votes/"
         data: data
-      .success( (result) ->
-        if result.destroyed
-          idea.upvotes = idea.upvotes - 1
-          idea.voted = false
-        else
-          idea.upvotes = idea.upvotes + 1
-          idea.voted = true
-      )
     else
       #Turbolinks.visit("/login-first")
 
@@ -73,6 +75,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
       $scope.newIdea = {}
 
   $scope.comment = (idea, commentText) ->
+    Ideas.unsubscribeIdea = idea
     comment =
       text: commentText
       idea_id: idea.id
@@ -87,6 +90,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     idea.comments.unshift(comment)
 
   $scope.removeComment = (idea, comment) ->
+    Ideas.unsubscribeIdea = idea  
     new Comment(comment).delete().then ->
      idea.comments.splice(idea.comments.indexOf(comment), 1)
 
