@@ -1,6 +1,6 @@
 .new-comment.comment{ng: {show: 'currentAdmin'}}
   .avatar{style: "background: url('{{currentAdmin.image_url}}');"}
-  %textarea{ng: {model: 'commentText'}, placeholder: 'comment here'}
+  %textarea{ng: {model: 'commentText'}, ui: {keypress: "{13: 'comment(idea, commentText)'}"}, placeholder: 'comment here'}
   %span.button.btn.btn-primary{ng: {click: "comment(idea, commentText)"}}
     Comment
 .new-comment.comment{ng: {hide: 'currentAdmin'}}

@@ -15,6 +15,7 @@ class Api::VotesController < ApplicationController
       result = v
     end
     idea.save!
+    Notification.push(idea)
     render json: result.to_json
   end
 

@@ -15,6 +15,7 @@
 //= require turbolinks
 //= require angular
 //= require angular-resource
+//= require angular-ui-keypress
 //= require angularjs/rails/resource
 //= require underscore
 //= require bootstrap

@@ -7,6 +7,9 @@ $medium-light: #AAAAAA;
 $very-light: #FCFCFC;
 $white: #FFFFFF;
 
+p {
+  font-size: 18px;
+}
 .logo {
   background: image-url('logo.png');
   width: 223px;
@@ -18,6 +21,10 @@ $white: #FFFFFF;
 }
 .ideas-list {
   border-top: 1px solid $light;
+  .description {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
 }
 .idea {
   @include transition(all 0.3s);
@@ -95,5 +102,6 @@ $white: #FFFFFF;
 .new-comment {
   textarea {
     display: inline-block;
+    min-width: 300px;
   }
 }

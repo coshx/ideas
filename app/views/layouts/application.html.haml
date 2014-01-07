@@ -4,6 +4,9 @@
     %title Ideas
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
+    %script{src: "http://js.pusher.com/2.0/pusher.min.js"}
+    :javascript
+      var pusher = new Pusher("#{Pusher.key}");
     = csrf_meta_tags
   %body{ng: {controller: 'GlobalCtrl'}}
     .navbar.navbar-default.navbar-static-top{:role => "navigation"}

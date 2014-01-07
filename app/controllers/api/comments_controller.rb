@@ -46,6 +46,7 @@ class Api::CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.admin_id = current_admin.id
     @comment.save!
+    Notification.push(@comment.idea)
     render json: @comment
   end
 
@@ -71,7 +72,7 @@ class Api::CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy if @comment.admin = current_admin
-
+    Notification.push(@comment.idea)
 
     respond_to do |format|
       format.html { redirect_to comments_url }

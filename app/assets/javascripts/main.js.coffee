@@ -1,5 +1,5 @@
 window.Ideas ||= {}
-Ideas.App = angular.module('Ideas', ['ngResource', 'rails'])
+Ideas.App = angular.module('Ideas', ['ngResource', 'rails', 'ui.keypress'])
 App = Ideas.App
 
 $(document).on 'page:load', ->
@@ -30,6 +30,24 @@ App.filter "timeFormat", ->
 
 App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   
+  channel = pusher.subscribe('ideas_channel')
+  
+  channel.bind 'idea_changed', (object) ->
+    if $scope.ideas      
+      idea = _.findWhere($scope.ideas, {id: object.id})      
+      if idea?
+        index = $scope.ideas.indexOf idea
+        $scope.$apply ->
+          $scope.ideas[index] = object.data
+      if !idea?
+        $scope.$apply ->
+          $scope.ideas.push(idea)
+    else if $scope.idea      
+      idea = $scope.idea if $scope.idea.id == object.id
+    $scope.$apply ->
+      $scope.idea = object.data
+      idea = object.data 
+      
   $scope.vote = (idea) ->
     if Ideas.currentAdmin
       data = {id: idea.id}
