@@ -1,3 +1,8 @@
+%a.back{href: '/'}
+  %span.glyphicon.glyphicon-chevron-left
+  %span.glyphicon.glyphicon-chevron-left
+  Back
+
 .ideas-list{ng: {controller: 'IdeasListCtrl', init: "idea=#{jsonize(@idea)}"}}
   .idea
     =render "ideas/idea"

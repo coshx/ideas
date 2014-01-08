@@ -4,6 +4,7 @@ Ideas::Application.routes.draw do
   get '/auth/:provider/callback' => 'authentications#create'
   get '/wrong_domain' => "main#wrong_domain"
   get '/ideas/:id' => "ideas#show"
+  get '/new' => "main#index", show_new_idea: true
 
   namespace :api do
     resource :votes

@@ -9,6 +9,7 @@ class MainController < ApplicationController
 
   def index
     @ideas = Idea.all
+    @show_new_idea = params[:show_new_idea] ? true : false
     if @ideas.any?
       Idea.current_admin = current_admin
     end

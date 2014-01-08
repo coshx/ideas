@@ -87,6 +87,12 @@ p {
 .new-idea {
   padding: 15px;
   background: $light;
+  input {
+    width: 300px;
+  }
+  textarea {
+    width: 300px;
+  }
 }
 .link {
   cursor: pointer;
@@ -114,4 +120,12 @@ p {
     display: inline-block;
     min-width: 300px;
   }
+}
+.back, .back:hover {
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  padding: 0px 0px 15px 0px;
+  color: $light;
+  cursor: pointer;  
 }

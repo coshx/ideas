@@ -4,6 +4,7 @@ App = Ideas.App
 
 $(document).on 'page:load', ->
   angular.bootstrap($("html"), ['Ideas'])
+  pusher.unsubscribe("ideas_channel");
 
 $ ->
   $(document).trigger "page:load"
@@ -108,9 +109,17 @@ App.controller "GlobalCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment"
   $scope.currentAdmin = Ideas.currentAdmin
 
   $scope.toggleNewIdea = ->
-    $scope.showNewIdea=!!!$scope.showNewIdea
-    if $scope.showNewIdea
+    if window.location.pathname == "/"
+      $scope.showNewIdea=!!!$scope.showNewIdea
+      console.log "just open", $scope.showNewIdea
+      if $scope.showNewIdea
+        setTimeout ->
+          $(".new-idea input").focus()
+        , 100
+    else
+      Turbolinks.visit("/new")
       setTimeout ->
         $(".new-idea input").focus()
-      , 100
+      , 300
+
 ]
