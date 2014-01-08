@@ -1,7 +1,5 @@
--# %a{href: 'auth/google_oauth2'} Login thru google
-
 .ideas-list{ng: {controller: 'IdeasListCtrl', init: "ideas=#{jsonize(@ideas)}"}}
   =render "ideas/new"
 
-  .idea{ng: {repeat: 'idea in ideas'}}
+  .idea{ng: {repeat: "idea in ideas|orderBy:'upvotes':true"}}
     =render "ideas/idea"

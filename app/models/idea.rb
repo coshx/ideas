@@ -13,7 +13,9 @@ class Idea < ActiveRecord::Base
   def json
   	self.to_json(include: [{admin: {only: [:name, :id, :image_url]}}, {comments: {include: {admin: {only: [:name, :image_url]}}}}], methods: [:voted])
   end
+
   def asjson
   	self.as_json(include: [{admin: {only: [:name, :id, :image_url]}}, {comments: {include: {admin: {only: [:name, :image_url]}}}}], methods: [:voted])
   end
+
 end
