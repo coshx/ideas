@@ -1,5 +1,12 @@
+.tags
+  Popular tags:
+  -@tags.each do |tag|
+    %a.tag{href: "/tags/#{tag.title}"} #{tag.title}
+
+%br
+
 .ideas-list{ng: {controller: 'IdeasListCtrl', init: "ideas=#{jsonize(@ideas)}"}}
   =render "ideas/new"
 
-  .idea{ng: {repeat: "idea in ideas|orderBy:'upvotes':true"}}
+  .idea{ng: {repeat: "idea in ideas|orderBy:'upvotes':true"}, class: "tags-{{idea.tags.length}}"}
     =render "ideas/idea"

@@ -27,12 +27,40 @@ p {
     padding-bottom: 15px;
   }
 }
+  .tags {
+    display: block;
+    font-size: 11px;
+    color: $medium-light;
+    .tag {
+      background: $medium-light;
+      color: $white;
+      border-radius: 2px;
+      line-height: 11px;
+      margin-right: 5px;
+      padding: 2px;
+      display: inline-block;
+      //display: block;
+      //float: left;
+    }
+  }
 .idea {
+  &.tags-0 {
+    padding: 15px 0px 15px 5px; 
+    .tags {
+      display: none;
+    } 
+  }
   @include transition(all 0.3s);
   background: $white;
-  padding: 15px 0px 15px 5px;
+  padding: 15px 0px 25px 5px;
   border-bottom: 1px solid $light;
   font-size: 18px;
+  position: relative;
+  .tags {
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+  }
   .title {
     a {
       color: $black-text;

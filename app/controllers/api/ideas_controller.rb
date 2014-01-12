@@ -42,10 +42,24 @@ class Api::IdeasController < ApplicationController
 
   # POST /ideas
   # POST /ideas.json
-  def create
+  def create    
     @idea = Idea.new(idea_params)
     @idea.admin_id = current_admin.id
     @idea.save!
+    params[:idea][:tags].each do |new_tag|
+      tag_title = new_tag[:title]
+      tag = Tag.find_by title: tag_title
+      if tag.present?
+        tag.used = tag.used + 1
+        tag.save!
+      else
+        tag = Tag.new
+        tag.title = tag_title.downcase
+        tag.used = 1        
+        tag.save!
+      end
+      @idea.tags << tag
+    end
     Notification.push(@idea)
     render json: @idea.to_json(include: [{admin: {only: [:name, :id, :image_url]}}, {comments: {include: {admin: {only: [:name, :image_url]}}}}], methods: [:voted])
   end

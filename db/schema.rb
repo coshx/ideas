@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103001710) do
+ActiveRecord::Schema.define(version: 20140112031106) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -58,6 +58,18 @@ ActiveRecord::Schema.define(version: 20140103001710) do
     t.integer  "upvotes",     default: 0
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "ideas_tags", id: false, force: true do |t|
+    t.integer "idea_id", null: false
+    t.integer "tag_id",  null: false
+  end
+
+  create_table "tags", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "used",       default: 0
   end
 
   create_table "votes", force: true do |t|

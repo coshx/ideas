@@ -1,4 +1,9 @@
 .new-idea{ng: {show: 'showNewIdea'}}
-  %input{type: 'text', ng: {model: 'newIdea.title'}, placeholder: "Idea title"}
+  %input{type: 'text', ng: {model: 'newIdea.title', change: 'getTags(newIdea.title, newIdea.tags)', trim: "false"}, placeholder: "Idea title"}
   %textarea{ ng: {model: 'newIdea.description'}, placeholder: "Idea description"}
+  .tags
+    .tag{ng: {repeat: 'tag in newIdea.tags'}}
+      %h1
+        {{tag.title}} 
+        %a{href: '#', ng: {click: 'removeTag(newIdea.tags, tag)'}} Remove
   .btn.btn-primary{ng: {click: 'createIdea(newIdea)'}} Add idea

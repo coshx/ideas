@@ -5,6 +5,7 @@ Ideas::Application.routes.draw do
   get '/wrong_domain' => "main#wrong_domain"
   get '/ideas/:id' => "ideas#show"
   get '/new' => "main#index", show_new_idea: true
+  get '/tags/:tag' => "main#index"
 
   namespace :api do
     resource :votes

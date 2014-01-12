@@ -3,6 +3,7 @@ class Idea < ActiveRecord::Base
   has_many :votes
   has_many :comments
   cattr_accessor :current_admin
+  has_and_belongs_to_many :tags, join_table: "ideas_tags"
 
   def voted
     if current_admin.present?

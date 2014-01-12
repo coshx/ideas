@@ -8,7 +8,17 @@ class MainController < ApplicationController
   end
 
   def index
-    @ideas = Idea.all
+    @tags = Tag.popular
+    if params[:tag]
+      tag = Tag.find_by title: params[:tag].downcase
+      if tag.present?
+        @ideas = tag.ideas
+      else
+        @ideas = []        
+      end
+    else
+      @ideas = Idea.all
+    end
     @show_new_idea = params[:show_new_idea] ? true : false
     if @ideas.any?
       Idea.current_admin = current_admin

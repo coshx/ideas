@@ -12,3 +12,7 @@
 %a.goto{href: "/ideas/{{idea.id}}"}
   %span.glyphicon.glyphicon-chevron-right
   %span.glyphicon.glyphicon-chevron-right
+%span.tags
+  Tags: 
+  %a.tag{ng: {repeat: 'tag in idea.tags'}, href: "/tags/{{tag.title}}"}
+    {{tag.title}}

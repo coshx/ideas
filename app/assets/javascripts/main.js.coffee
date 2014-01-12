@@ -1,13 +1,15 @@
 window.Ideas ||= {}
 Ideas.App = angular.module('Ideas', ['ngResource', 'rails', 'ui.keypress'])
 App = Ideas.App
+Ideas.index = 0
 
-$(document).on 'page:load', ->
-  angular.bootstrap($("html"), ['Ideas'])
-  pusher.unsubscribe("ideas_channel");
+#$(document).on 'page:load', ->
+  #angular.bootstrap($("html"), ['Ideas'])
+  #pusher.unsubscribe("ideas_channel");
 
 $ ->
-  $(document).trigger "page:load"
+  angular.bootstrap($("html"), ['Ideas'])
+  #$(document).trigger "page:load"
 
 window.getAdmin = (admin) ->
   Ideas.currentAdmin = admin
@@ -30,7 +32,8 @@ App.filter "timeFormat", ->
       moment(time, "YYYY-MM-DDTHH:mm:ss Z").calendar()
 
 App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
-  
+  $scope.newIdea = {}
+  $scope.newIdea.tags = []
   channel = pusher.subscribe('ideas_channel')
   
   channel.bind 'idea_changed', (object) ->
@@ -74,6 +77,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     idea.upvotes = 0
     idea.voted = false
     idea.admin = Ideas.currentAdmin
+    idea.tags
     $scope.ideas.unshift(idea)
     Ideas.globalScope.showNewIdea = false
     $scope.newIdea = {}
@@ -101,9 +105,19 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     Ideas.unsubscribeIdea = idea  
     new Comment(comment).delete().then ->
      idea.comments.splice(idea.comments.indexOf(comment), 1)
-
+  $scope.getTags = (str, tags) ->
+    console.log "TRIGGER!"
+    if str 
+      if str.lastIndexOf("#") < str.lastIndexOf(" ") && str.lastIndexOf("#") > 0
+        tagTitle = str.substring(str.lastIndexOf("#")+1,str.lastIndexOf(" "))
+        tag = {title: tagTitle}
+        $scope.newIdea.title = str.replace("##{tagTitle} ", "") 
+        console.log str
+        if tags.indexOf(tag) < 0 
+          tags.push(tag)
+  $scope.removeTag = (tags, tag) ->
+    tags.splice(tags.indexOf(tag), 1)
 ]
-
 App.controller "GlobalCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   Ideas.globalScope = $scope
   $scope.currentAdmin = Ideas.currentAdmin
