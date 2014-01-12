@@ -1,5 +1,6 @@
 class Idea < ActiveRecord::Base
   belongs_to :admin
+  belongs_to :status
   has_many :votes
   has_many :comments
   cattr_accessor :current_admin
