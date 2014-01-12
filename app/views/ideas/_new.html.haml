@@ -1,4 +1,6 @@
 .new-idea{ng: {show: 'showNewIdea'}}
+  Add tags by using hashtags (e.g.: "#i-love-justin-bieber")
+  %br
   %input{type: 'text', ng: {model: 'newIdea.title', change: 'getTags(newIdea.title, newIdea.tags)', trim: "false"}, placeholder: "Idea title"}
   %textarea{ ng: {model: 'newIdea.description'}, placeholder: "Idea description"}
   .tags
