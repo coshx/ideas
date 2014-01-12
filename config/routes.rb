@@ -13,6 +13,7 @@ Ideas::Application.routes.draw do
     resource :comments
     delete '/comments/:id' => "comments#destroy"
     delete '/ideas/:id' => "ideas#destroy"
+    post '/ideas/:id/change_status/:status_id' => "ideas#change_status"
   end
 
 end

@@ -1,6 +1,6 @@
 class Api::IdeasController < ApplicationController
   before_filter :authenticate_admin!
-  protect_from_forgery except: [:create, :destroy]
+  protect_from_forgery except: [:create, :destroy, :change_status]
 
   # GET /ideas
   # GET /ideas.json
@@ -79,6 +79,14 @@ class Api::IdeasController < ApplicationController
         end
       end
     end
+  end
+
+  def change_status
+    idea = Idea.find(params[:id])
+    status = Status.find(params[:status_id])
+    idea.status = status
+    idea.save! 
+    render json: idea.to_json
   end
 
   # DELETE /ideas/1

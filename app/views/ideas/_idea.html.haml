@@ -17,5 +17,10 @@
   Tags: 
   %a.tag{ng: {repeat: 'tag in idea.tags'}, href: "/tags/{{tag.title}}"}
     {{tag.title}}
-.status{class: 'status-{{idea.status.title}}'}
+.status{class: 'status-{{idea.status.title}}', ng: {click: 'showStatusesFor(idea)'}}
   {{idea.status.title}}
+.statuses{ng: {show: 'showStatusesIdea==idea.id'}}
+  Choose status: 
+  .status{ng: {click: 'changeStatus(idea, status)', repeat: 'status in statuses'}, class: 'status-{{status.title}}'}
+    {{status.title}}
+

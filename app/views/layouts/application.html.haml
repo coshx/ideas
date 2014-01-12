@@ -8,7 +8,7 @@
     :javascript
       var pusher = new Pusher("#{Pusher.key}");
     = csrf_meta_tags
-  %body{ng: {controller: 'GlobalCtrl', init: "showNewIdea=#{@show_new_idea}"}}
+  %body{ng: {controller: 'GlobalCtrl', init: "showNewIdea=#{@show_new_idea}; statuses=#{@statuses.to_json}"}}
     .navbar.navbar-default.navbar-static-top{:role => "navigation"}
       .container
         .navbar-header

@@ -72,6 +72,18 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
         data: data
     else
       #Turbolinks.visit("/login-first")
+  $scope.changeStatus = (idea, status) ->
+    ideaId = idea.id
+    statusId = status.id
+    idea.status = status
+    $http
+      method: 'POST'
+      url: "/api/ideas/#{ideaId}/change_status/#{statusId}"
+  $scope.showStatusesFor = (idea) ->
+    if $scope.showStatusesIdea == idea.id
+      $scope.showStatusesIdea = 0
+    else
+      $scope.showStatusesIdea = idea.id
 
   $scope.createIdea = (idea) ->
     idea.upvotes = 0
