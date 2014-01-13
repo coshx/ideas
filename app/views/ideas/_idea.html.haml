@@ -9,6 +9,8 @@
   by
   {{idea.admin.name}}
   .avatar{style: "background: url('{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}');"}
+%a.remove{ng: {show: 'currentAdmin.id==idea.admin.id', click: 'removeIdea(idea)'}}
+  Remove
 %a.goto{href: "/ideas/{{idea.id}}"}
   %span.glyphicon.glyphicon-chevron-right
   %span.glyphicon.glyphicon-chevron-right

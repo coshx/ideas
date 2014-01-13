@@ -7,7 +7,9 @@ $medium-light: #AAAAAA;
 $very-light: #FCFCFC;
 $white: #FFFFFF;
 $black-text: #333333;
-
+a {
+  cursor: pointer;
+}
 p {
   font-size: 18px;
 }

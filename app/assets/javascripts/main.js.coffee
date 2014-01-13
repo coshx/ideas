@@ -99,6 +99,11 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
       #$scope.ideas.unshift(idea)
       #Ideas.globalScope.showNewIdea = false
       $scope.newIdea = {}
+  $scope.removeIdea = (idea) ->
+    c = confirm("Remove idea '#{idea.title}'. Sure sure?");
+    if c
+      new Idea(idea).delete().then ->
+        $scope.ideas.splice($scope.ideas.indexOf(idea), 1)
 
   $scope.comment = (idea, commentText) ->
     Ideas.unsubscribeIdea = idea
