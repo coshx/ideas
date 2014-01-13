@@ -76,9 +76,11 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     ideaId = idea.id
     statusId = status.id
     idea.status = status
+    $scope.showStatusesIdea = 0
     $http
       method: 'POST'
       url: "/api/ideas/#{ideaId}/change_status/#{statusId}"
+
   $scope.showStatusesFor = (idea) ->
     if $scope.showStatusesIdea == idea.id
       $scope.showStatusesIdea = 0

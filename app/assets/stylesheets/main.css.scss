@@ -96,13 +96,12 @@ p {
     line-height: 49px;
     text-align: center;
     &.status-done {
-      background: green;
+      background: rgb(69, 226, 125);
       content: '';
     }
     &.status-progress {
-      background: yellow;
+      background: rgb(255, 173, 0);
       content: '';
-      color: $medium-light;
     }
     &.status-none {
       background: white;
