@@ -9,7 +9,7 @@ class UserMailer < ActionMailer::Base
   	@comment = comment
   	@user = comment.idea.admin
   	@author = comment.admin
-    mail(to: user.email, subject: "#{author.name} just commented on the idea you posted")
+    mail(to: @user.email, subject: "#{author.name} just commented on the idea you posted")
   end
 
 end
