@@ -18,7 +18,6 @@ class Notification < ActiveRecord::Base
         if n.objectable_type = "Idea"
             UserMailer.new_idea(object).deliver
         end
-        #binding.pry
         if n.objectable_type = "Comment"
             UserMailer.commented(object).deliver
         end

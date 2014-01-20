@@ -8,7 +8,6 @@ class UserMailer < ActionMailer::Base
       @user = u
       mail(to: u.email, subject: "New idea was posted")
     end
-    binding.pry
   end
 
   def commented(comment)
