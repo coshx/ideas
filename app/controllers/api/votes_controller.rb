@@ -14,9 +14,8 @@ class Api::VotesController < ApplicationController
       v = current_user.votes.create(idea_id: params[:id])
       result = v
     end
-    idea.save!
-    if v.present?
-      Notification.generate(current_user, v)
+    idea.save!    
+    Notification.generate(current_user, v) if v.present?
     render json: result.to_json
   end
 
