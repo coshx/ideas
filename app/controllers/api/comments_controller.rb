@@ -73,7 +73,7 @@ class Api::CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy if @comment.user = current_user
-    Notification.generate(current_user, @comment)
+    #Notification.generate(current_user, @comment)
     Notification.push(@comment.idea)
 
     respond_to do |format|
