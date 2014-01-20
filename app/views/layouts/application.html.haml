@@ -26,12 +26,12 @@
           %ul.nav.navbar-nav.navbar-right
             %li.dropdown
               %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
-                -if admin_signed_in?
-                  #{current_admin.name}
+                -if user_signed_in?
+                  #{current_user.name}
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  = link_to "Logout yo", destroy_admin_session_path, :method => :delete
+                  = link_to "Logout yo", destroy_user_session_path, :method => :delete
                 %li.divider
                 %li.dropdown-header Secret Actions
                 %li
@@ -44,4 +44,4 @@
         = yield
 
   :javascript
-    getAdmin(#{current_admin.to_json(only: [:name, :id, :image_url])});
+    getUser(#{current_user.to_json(only: [:name, :id, :image_url])});

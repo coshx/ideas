@@ -11,8 +11,8 @@ $ ->
   angular.bootstrap($("html"), ['Ideas'])
   #$(document).trigger "page:load"
 
-window.getAdmin = (admin) ->
-  Ideas.currentAdmin = admin
+window.getUser = (user) ->
+  Ideas.currentUser = user
 
 App.factory "Comment", ["railsResourceFactory", (railsResourceFactory) ->
   railsResourceFactory
@@ -40,7 +40,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     if Ideas.unsubscribeIdea == object.id
       Ideas.unsubscribeIdea = {}
     else
-      if object.data.admin.id != Ideas.currentAdmin.id
+      if object.data.user.id != Ideas.currentUser.id
         if $scope.ideas      
           idea = _.findWhere($scope.ideas, {id: object.id})      
           if idea?
@@ -64,7 +64,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
     else
       idea.voted = true
       idea.upvotes = idea.upvotes + 1
-    if Ideas.currentAdmin
+    if Ideas.currentUser
       data = {id: idea.id}
       $http
         method: 'POST'
@@ -90,7 +90,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
   $scope.createIdea = (idea) ->
     idea.upvotes = 0
     idea.voted = false
-    idea.admin = Ideas.currentAdmin
+    idea.user = Ideas.currentUser
     idea.tags
     $scope.ideas.unshift(idea)
     Ideas.globalScope.showNewIdea = false
@@ -114,8 +114,8 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
       comment.id = c.id
       comment.created_at = c.createdAt
       $scope.commentText = ""
-    comment.admin = Ideas.currentAdmin
-    comment.admin_id = Ideas.currentAdmin.id
+    comment.user = Ideas.currentUser
+    comment.user_id = Ideas.currentUser.id
     now = new Date().getTime()
     #comment.created_at = moment(now).format("YYYY-MM-DDTHH:mm:ss Z")
     idea.comments.unshift(comment)
@@ -139,7 +139,7 @@ App.controller "IdeasListCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comme
 ]
 App.controller "GlobalCtrl", ["$scope", "$rootScope", "$http", "Idea", "Comment", ($scope, $rootScope, $http, Idea, Comment) ->
   Ideas.globalScope = $scope
-  $scope.currentAdmin = Ideas.currentAdmin
+  $scope.currentUser = Ideas.currentUser
 
   $scope.toggleNewIdea = ->
     if window.location.pathname == "/"

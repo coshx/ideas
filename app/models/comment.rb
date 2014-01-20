@@ -1,11 +1,13 @@
 class Comment < ActiveRecord::Base
-  belongs_to :admin
+  belongs_to :user
   belongs_to :idea
+  has_many :notification, as: :objectable
 
-  before_save :notify
+  #before_save :notify
 
   def notify
-  	UserMailer.commented(self).deliver
+  	Notification.generate(self.user, self)
+  	#UserMailer.commented(self).deliver
   end	
 
 	def push(action)

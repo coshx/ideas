@@ -1,20 +1,20 @@
-.new-comment.comment{ng: {show: 'currentAdmin'}}
-  .avatar{style: "background: url('{{currentAdmin.image_url}}');"}
+.new-comment.comment{ng: {show: 'currentUser'}}
+  .avatar{style: "background: url('{{currentUser.image_url}}');"}
   %textarea{ng: {model: 'commentText'}, ui: {keypress: "{13: 'comment(idea, commentText)'}"}, placeholder: 'comment here'}
   %span.button.btn.btn-primary{ng: {click: "comment(idea, commentText)"}}
     Comment
-.new-comment.comment{ng: {hide: 'currentAdmin'}}
+.new-comment.comment{ng: {hide: 'currentUser'}}
   .body
     %p.message
       %a{href: "/auth/facebook", ng: {click: 'loginAndComeBack()'}} Login
       to comment, gorgeous
 .comment{ng: {repeat: "comment in idea.comments | orderBy:'created_at':true"}}
   .body
-    .avatar{style: "background: url('{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}');"}
-    %span.name {{comment.admin.name}}
+    .avatar{style: "background: url('{{idea.user.imageUrl && idea.user.imageUrl || idea.user.image_url}}');"}
+    %span.name {{comment.user.name}}
     %span.text {{comment.text}}
     %span.time {{comment.created_at|timeFormat}}
-    %span.remove.glyphicon.glyphicon-remove{ng: {show: 'comment.admin_id == currentAdmin.id', click: "removeComment(idea, comment)"}}
+    %span.remove.glyphicon.glyphicon-remove{ng: {show: 'comment.user_id == currentUser.id', click: "removeComment(idea, comment)"}}
 
 :coffeescript
   $ ->

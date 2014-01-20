@@ -1,5 +1,5 @@
 class Api::IdeasController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_user!
   protect_from_forgery except: [:create, :destroy, :change_status]
 
   # GET /ideas
@@ -44,31 +44,34 @@ class Api::IdeasController < ApplicationController
   # POST /ideas.json
   def create    
     @idea = Idea.new(idea_params)
-    @idea.admin_id = current_admin.id
+    @idea.user_id = current_user.id
     @idea.save!
-    params[:idea][:tags].each do |new_tag|
-      tag_title = new_tag[:title]
-      tag = Tag.find_by title: tag_title
-      if tag.present?
-        tag.used = tag.used + 1
-        tag.save!
-      else
-        tag = Tag.new
-        tag.title = tag_title.downcase
-        tag.used = 1        
-        tag.save!
+    if params[:idea][:tags]
+      params[:idea][:tags].each do |new_tag|
+        tag_title = new_tag[:title]
+        tag = Tag.find_by title: tag_title
+        if tag.present?
+          tag.used = tag.used + 1
+          tag.save!
+        else
+          tag = Tag.new
+          tag.title = tag_title.downcase
+          tag.used = 1        
+          tag.save!
+        end
+        @idea.tags << tag
       end
-      @idea.tags << tag
     end
-    Notification.push(@idea)
-    render json: @idea.to_json(include: [{admin: {only: [:name, :id, :image_url]}}, {comments: {include: {admin: {only: [:name, :image_url]}}}}], methods: [:voted])
+    Notification.generate(current_user, @idea)
+    Notification.push(@idea)    
+    render json: @idea.to_json(include: [{user: {only: [:name, :id, :image_url]}}, {comments: {include: {user: {only: [:name, :image_url]}}}}], methods: [:voted])
   end
 
   # PUT /ideas/1
   # PUT /ideas/1.json
   def update
     @idea = Idea.find(params[:id])
-    if @idea.admin = current_admin
+    if @idea.user = current_user
       respond_to do |format|
         if @idea.update_attributes(params[:idea])
           format.html { redirect_to @idea, notice: 'Idea was successfully updated.' }
@@ -84,6 +87,8 @@ class Api::IdeasController < ApplicationController
   def change_status
     idea = Idea.find(params[:id])
     status = Status.find(params[:status_id])
+    #Notification.generate(current_user, idea)
+    Notification.push(idea)
     idea.status = status
     idea.save! 
     render json: idea.to_json
@@ -93,7 +98,7 @@ class Api::IdeasController < ApplicationController
   # DELETE /ideas/1.json
   def destroy
     @idea = Idea.find(params[:id])
-    @idea.destroy if @idea.admin = current_admin
+    @idea.destroy if @idea.user = current_user
 
 
     respond_to do |format|

@@ -5,11 +5,11 @@
     %span.glyphicon.glyphicon-arrow-down{ng:{show: 'idea.voted'}}
 %span.title
   %a{href: "/ideas/{{idea.id}}"} {{idea.title}}
-%span.admin
+%span.user
   by
-  {{idea.admin.name}}
-  .avatar{style: "background: url('{{idea.admin.imageUrl && idea.admin.imageUrl || idea.admin.image_url}}');"}
-%a.remove{ng: {show: 'currentAdmin.id==idea.admin.id', click: 'removeIdea(idea)'}}
+  {{idea.user.name}}
+  .avatar{style: "background: url('{{idea.user.imageUrl && idea.user.imageUrl || idea.user.image_url}}');"}
+%a.remove{ng: {show: 'currentUser.id==idea.user.id', click: 'removeIdea(idea)'}}
   Remove
 %a.goto{href: "/ideas/{{idea.id}}"}
   %span.glyphicon.glyphicon-chevron-right

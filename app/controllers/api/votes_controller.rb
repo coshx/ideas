@@ -1,9 +1,9 @@
 class Api::VotesController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_user!
   protect_from_forgery except: [:create, :destroy]
 
   def create
-    v = current_admin.votes.where(idea_id: params[:id]).first
+    v = current_user.votes.where(idea_id: params[:id]).first
     idea = Idea.find(params[:id])
     if v
       idea.upvotes = idea.upvotes - 1
@@ -11,16 +11,17 @@ class Api::VotesController < ApplicationController
       result = {destroyed: true}
     else
       idea.upvotes = idea.upvotes + 1
-      v = current_admin.votes.create(idea_id: params[:id])
+      v = current_user.votes.create(idea_id: params[:id])
       result = v
     end
     idea.save!
-    Notification.push(idea)
+    if v.present?
+      Notification.generate(current_user, v)
     render json: result.to_json
   end
 
   def destroy
-    v = current_admin.votes.where(idea_id: params[:id]).first.destroy
+    v = current_user.votes.where(idea_id: params[:id]).first.destroy
     render json: {success: true}
   end
 

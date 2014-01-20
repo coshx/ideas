@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  objectable_id: 1
+  objectable_type: MyString
+  user_id: 1
+
+two:
+  objectable_id: 1
+  objectable_type: MyString
+  user_id: 1

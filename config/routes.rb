@@ -1,6 +1,6 @@
 Ideas::Application.routes.draw do
   root "main#index"
-  devise_for :admins
+  devise_for :users
   get '/auth/:provider/callback' => 'authentications#create'
   get '/wrong_domain' => "main#wrong_domain"
   get '/ideas/:id' => "ideas#show"

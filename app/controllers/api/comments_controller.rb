@@ -1,5 +1,5 @@
 class Api::CommentsController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authenticate_user!
   protect_from_forgery except: [:create, :destroy]
 
   # GET /comments
@@ -44,8 +44,9 @@ class Api::CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
-    @comment.admin_id = current_admin.id
+    @comment.user_id = current_user.id
     @comment.save!
+    Notification.generate(current_user, @comment)
     Notification.push(@comment.idea)
     render json: @comment
   end
@@ -54,7 +55,7 @@ class Api::CommentsController < ApplicationController
   # PUT /comments/1.json
   def update
     @comment = Comment.find(params[:id])
-    if @comment.admin = current_admin
+    if @comment.user = current_user
       respond_to do |format|
         if @comment.update_attributes(params[:comment])
           format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
@@ -71,7 +72,8 @@ class Api::CommentsController < ApplicationController
   # DELETE /comments/1.json
   def destroy
     @comment = Comment.find(params[:id])
-    @comment.destroy if @comment.admin = current_admin
+    @comment.destroy if @comment.user = current_user
+    Notification.generate(current_user, @comment)
     Notification.push(@comment.idea)
 
     respond_to do |format|

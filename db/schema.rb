@@ -11,9 +11,62 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140112032959) do
+ActiveRecord::Schema.define(version: 20140119233947) do
 
-  create_table "admins", force: true do |t|
+  create_table "authentications", force: true do |t|
+    t.string   "user_id"
+    t.string   "integer"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", force: true do |t|
+    t.text     "text"
+    t.integer  "user_id"
+    t.integer  "idea_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ideas", force: true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "upvotes",     default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "status_id"
+  end
+
+  create_table "ideas_tags", id: false, force: true do |t|
+    t.integer "idea_id", null: false
+    t.integer "tag_id",  null: false
+  end
+
+  create_table "notifications", force: true do |t|
+    t.integer  "objectable_id"
+    t.string   "objectable_type"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "statuses", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "tags", force: true do |t|
+    t.string   "title"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "used",       default: 0
+  end
+
+  create_table "users", force: true do |t|
     t.string   "name"
     t.string   "nickname"
     t.datetime "created_at"
@@ -31,56 +84,11 @@ ActiveRecord::Schema.define(version: 20140112032959) do
     t.string   "image_url"
   end
 
-  add_index "admins", ["email"], name: "index_admins_on_email", unique: true
-  add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
-
-  create_table "authentications", force: true do |t|
-    t.string   "admin_id"
-    t.string   "integer"
-    t.string   "provider"
-    t.string   "uid"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "comments", force: true do |t|
-    t.text     "text"
-    t.integer  "admin_id"
-    t.integer  "idea_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "ideas", force: true do |t|
-    t.integer  "admin_id"
-    t.string   "title"
-    t.text     "description"
-    t.integer  "upvotes",     default: 0
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "status_id"
-  end
-
-  create_table "ideas_tags", id: false, force: true do |t|
-    t.integer "idea_id", null: false
-    t.integer "tag_id",  null: false
-  end
-
-  create_table "statuses", force: true do |t|
-    t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "tags", force: true do |t|
-    t.string   "title"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "used",       default: 0
-  end
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
   create_table "votes", force: true do |t|
-    t.integer  "admin_id"
+    t.integer  "user_id"
     t.integer  "idea_id"
     t.datetime "created_at"
     t.datetime "updated_at"
