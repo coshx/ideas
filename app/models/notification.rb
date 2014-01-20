@@ -15,10 +15,10 @@ class Notification < ActiveRecord::Base
         n.objectable = object
         n.user = user
         n.save!
-        if n.objectable_type = "Idea"
+        if n.objectable_type == "Idea"
             UserMailer.new_idea(object).deliver
         end
-        if n.objectable_type = "Comment"
+        if n.objectable_type == "Comment"
             UserMailer.commented(object).deliver
         end
         
